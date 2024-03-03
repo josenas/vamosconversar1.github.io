@@ -1,0 +1,145 @@
+echo "# vamosconversar1.github.io" >> README.md 
+git init 
+git add README.md 
+git commit -m "primeiro commit" 
+git branch -M main 
+git remote add origin https://github.com/josenas/vamosconversar1. github.io.git
+ git push -u origem principal
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Converse Comigo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+
+        .chat-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .chat-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        #chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        #user-input {
+            width: calc(100% - 70px);
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #send-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <video id="video-background" autoplay muted loop>
+        <source src="videofund2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="chat-container">
+        <div class="chat-box">
+            <div id="chat-messages"></div>
+            <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+            <button id="send-btn">Enviar</button>
+        </div>
+    </div>
+
+    <h1>Registro de Usuário</h1>
+    <form id="register-form">
+        <label for="username">Nome de Usuário (4-15 caracteres):</label><br>
+        <input type="text" id="username" name="username" minlength="4" maxlength="15" required><br>
+        <label for="password">Senha (mínimo 4 caracteres):</label><br>
+        <input type="password" id="password" name="password" minlength="4" required><br><br>
+        <input type="submit" value="Registrar">
+    </form>
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Verifica se o nome de usuário já está armazenado localmente
+            if (localStorage.getItem(username)) {
+                alert('Nome de usuário já existe. Por favor, escolha outro.');
+                return;
+            }
+
+            // Armazena o nome de usuário e a senha localmente
+            localStorage.setItem(username, password);
+
+            alert('Registro concluído com sucesso! Você pode fazer login agora.');
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                if (userInput.value.trim() !== '') {
+                    appendMessage('Você', userInput.value);
+                    userInput.value = '';
+                }
+            }
+
+            function appendMessage(sender, message) {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = sender + ': ' + message;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
